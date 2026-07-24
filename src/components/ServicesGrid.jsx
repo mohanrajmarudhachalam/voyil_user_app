@@ -21,11 +21,11 @@ export default function ServicesGrid({ services, onBook }) {
           <p className="text-[12px] uppercase tracking-[0.18em] font-semibold text-emerald-400">
             What we offer
           </p>
-          <h2 className="mt-2 text-[28px] md:text-[36px] font-extrabold tracking-tight">
+          <h2 className="mt-2 text-[28px] md:text-[36px] font-extrabold text-slate-900 tracking-tight">
             Home-visit services, on your schedule.
           </h2>
         </div>
-        <span className="hidden md:inline-flex h-9 px-3 items-center rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-300 text-[12px] font-bold">
+        <span className="hidden md:inline-flex h-9 px-3 items-center rounded-full border border-emerald-500/30 bg-emerald-500/10 text-slate-700 text-[12px] font-bold">
           {services.length} categories
         </span>
       </div>
@@ -64,7 +64,7 @@ function ServiceTile({ service, onBook, span, h, i }) {
     <div
       onClick={() => onBook(service)}
       className={
-        'group relative overflow-hidden rounded-3xl border border-white/10 bg-[#0e1a16] cursor-pointer transition-all duration-300 hover:border-emerald-500/40 hover:-translate-y-0.5 ' +
+        'group relative overflow-hidden rounded-3xl border border-slate-500 bg-white shadow-md hover:shadow-xl cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:border-emerald-600 ' +
         span +
         ' ' +
         h
@@ -77,7 +77,7 @@ function ServiceTile({ service, onBook, span, h, i }) {
         loading="lazy"
         className="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-[1200ms] ease-out"
       />
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0a1411]/55 via-[#0a1411]/40 to-[#0a1411]" />
+      <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent" />
       <div className="absolute inset-0 flex flex-col justify-between p-5">
         <div className="flex items-start justify-between">
           <span className="h-10 w-10 rounded-xl bg-[#0a1411]/70 border border-white/10 backdrop-blur flex items-center justify-center">
@@ -90,23 +90,23 @@ function ServiceTile({ service, onBook, span, h, i }) {
         </div>
 
         <div>
-          <p className="flex items-center gap-1 text-[11px] uppercase tracking-[0.12em] text-zinc-300 font-semibold mb-1">
-            <Clock size={11} className="text-emerald-400" /> {service.duration}
+          <p className="flex items-center gap-1 text-[11px] uppercase tracking-[0.12em] text-slate-600 font-semibold mb-1">
+            <Clock size={11} className="text-slate-500" /> {service.duration}
           </p>
-          <h3 className="text-[22px] md:text-[24px] font-extrabold leading-tight tracking-tight text-zinc-50">
+          <h3 className="text-[22px] md:text-[24px] font-extrabold leading-tight tracking-tight text-emerald-500">
             {service.title}
           </h3>
-          <p className="mt-1 text-[13px] text-zinc-300 max-w-[360px]">
+          <p className="mt-1 text-[13px] text-slate-800 max-w-[360px]">
             {service.subtitle}
           </p>
           <div className="mt-4 flex items-center justify-between">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.12em] text-zinc-400 font-semibold">
+              <p className="text-[10px] uppercase tracking-[0.12em] text-slate-600 font-semibold">
                 Starts from
               </p>
               <p className="text-[20px] font-extrabold text-emerald-300 leading-tight">
                 ₹{service.price}
-                <span className="text-[11px] text-zinc-400 font-medium ml-1">/ visit</span>
+                <span className="text-[11px] text-slate-600 font-medium ml-1">/ visit</span>
               </p>
             </div>
             <span

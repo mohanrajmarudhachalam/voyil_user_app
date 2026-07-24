@@ -29,7 +29,7 @@ export default function HowItWorks() {
         <p className="text-[12px] uppercase tracking-[0.18em] font-semibold text-emerald-400">
           How it works
         </p>
-        <h2 className="mt-2 text-[28px] md:text-[36px] font-extrabold tracking-tight">
+        <h2 className="mt-2 text-[28px] md:text-[36px] font-extrabold text-slate-500 tracking-tight">
           Three steps. No paperwork.
         </h2>
         <p className="mt-3 text-[14px] md:text-[15px] text-zinc-400">
@@ -59,13 +59,13 @@ export default function HowItWorks() {
                 <span className="absolute -top-7 left-6 h-14 w-14 rounded-2xl bg-[#06100d] border border-emerald-500/35 flex items-center justify-center shadow-[0_8px_24px_-12px_rgba(16,185,129,0.6)]">
                   <Icon size={22} className="text-emerald-400" />
                 </span>
-                <span className="absolute top-5 right-5 text-[11px] uppercase tracking-[0.16em] font-bold text-emerald-300/70">
+                <span className="absolute top-5 right-5 text-[11px] uppercase tracking-[0.16em] font-bold text-emerald-500">
                   {s.label}
                 </span>
-                <h3 className="mt-2 text-[20px] font-extrabold tracking-tight text-zinc-50">
+                <h3 className="mt-2 text-[20px] font-extrabold tracking-tight text-slate-500">
                   {s.title}
                 </h3>
-                <p className="mt-2 text-[14px] leading-relaxed text-zinc-400">
+                <p className="mt-2 text-[14px] leading-relaxed text-slate-500">
                   {s.desc}
                 </p>
               </div>

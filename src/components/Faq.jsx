@@ -33,36 +33,36 @@ export default function Faq() {
           <p className="text-[12px] uppercase tracking-[0.18em] font-semibold text-emerald-400">
             Frequently asked
           </p>
-          <h2 className="mt-2 text-[28px] md:text-[36px] font-extrabold tracking-tight leading-tight">
+          <h2 className="mt-2 text-[28px] md:text-[36px] font-extrabold text-slate-500 tracking-tight leading-tight">
             Answers, before you ask.
           </h2>
-          <p className="mt-3 text-[14px] text-zinc-400 max-w-sm">
+          <p className="mt-3 text-[14px] text-slate-500 max-w-sm">
             If something isn’t covered here, our concierge is online 24×7 and
             happy to help.
           </p>
         </div>
-        <div className="lg:col-span-8 space-y-3">
+        <div className="lg:col-span-8  space-y-3">
           {FAQ.map((item, i) => {
             const isOpen = open === i;
             return (
               <div
                 key={item.q}
-                className="glass rounded-2xl px-5 transition-colors"
+                className="glass rounded-2xl px-5 border text-slate-500 transition-colors"
               >
                 <button
                   onClick={() => setOpen(isOpen ? -1 : i)}
                   className="w-full flex items-center justify-between gap-4 py-4 text-left"
                 >
-                  <span className="text-[15px] md:text-[16px] font-bold text-zinc-50">
+                  <span className="text-[15px] md:text-[16px] font-bold text-slate-400">
                     {item.q}
                   </span>
-                  <span className="h-8 w-8 shrink-0 rounded-full border border-white/15 flex items-center justify-center text-emerald-400">
+                  <span className="h-8 w-8 shrink-0 rounded-full border border-black flex items-center justify-center text-emerald-800">
                     {isOpen ? <Minus size={15} /> : <Plus size={15} />}
                   </span>
                 </button>
                 {isOpen && (
                   <div className="pb-5 -mt-1">
-                    <p className="text-[14px] leading-relaxed text-zinc-300">
+                    <p className="text-[14px] leading-relaxed text-slate-500">
                       {item.a}
                     </p>
                   </div>

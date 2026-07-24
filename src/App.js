@@ -41,7 +41,7 @@ function Layout() {
 
 function App() {
   return (
-    <div className="App min-h-screen bg-[#06100d] text-zinc-100">
+    <div className="App min-h-screen bg-[#FCF9EE] text-zinc-100">
       <BrowserRouter>
         <Layout />
         <Toaster />

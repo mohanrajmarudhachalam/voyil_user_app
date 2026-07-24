@@ -60,10 +60,10 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
 
 /* ─── stepper config ──────────────────────────────────────────── */
 const STEPS = [
-  { id: 1, label: 'Service',  Icon: Stethoscope },
-  { id: 2, label: 'Patient',  Icon: User },
+  { id: 1, label: 'Service', Icon: Stethoscope },
+  { id: 2, label: 'Patient', Icon: User },
   { id: 3, label: 'Schedule', Icon: Calendar },
-  { id: 4, label: 'Payment',  Icon: CreditCard },
+  { id: 4, label: 'Confirm Booking', Icon: CreditCard },
 ];
 
 /* ─── inline error message ────────────────────────────────────── */
@@ -119,23 +119,23 @@ function extractErrorMessage(e) {
 
 /* ═══════════════════════════════════════════════════════════════ */
 export default function BookingDialog({ service, open, onOpenChange }) {
-  const [step, setStep]           = useState(1);
-  const[image, setImage]          = useState(service?.image || '');
-  const [date, setDate]           = useState(iso(new Date()));
-  const [slot, setSlot]           = useState(TIME_SLOTS[1]);
-  const [name, setName]           = useState('');
-  const [userid, setUserid]       = useState('');
-  const [phone, setPhone]         = useState('');
-  const [age, setAge]             = useState('');
-  const [gender, setGender]       = useState('Male');
-  const [notes, setNotes]         = useState('');
-  const [address, setAddress]     = useState('');
-  const [city, setCity]           = useState('');
-  const [Price, setPrice]         = useState(service?.price || 0);
+  const [step, setStep] = useState(1);
+  const [image, setImage] = useState(service?.image || '');
+  const [date, setDate] = useState(iso(new Date()));
+  const [slot, setSlot] = useState();
+  const [name, setName] = useState('');
+  const [userid, setUserid] = useState('');
+  const [phone, setPhone] = useState('');
+  const [age, setAge] = useState('');
+  const [gender, setGender] = useState('Male');
+  const [notes, setNotes] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [Price, setPrice] = useState(service?.price || 0);
   const [payMethod, setPayMethod] = useState('upi');
-  const [errors, setErrors]       = useState({});
-  const [done, setDone]           = useState(false);
-  const [busy, setBusy]           = useState(false);
+  const [errors, setErrors] = useState({});
+  const [done, setDone] = useState(false);
+  const [busy, setBusy] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -157,7 +157,7 @@ export default function BookingDialog({ service, open, onOpenChange }) {
   const progress = `${(step / 4) * 100}%`;
 
   console.log(userid);
-  
+
 
   /* ── clear a single error when user edits that field ─────────── */
   const clearErr = (key) => setErrors((prev) => ({ ...prev, [key]: undefined }));
@@ -189,7 +189,7 @@ export default function BookingDialog({ service, open, onOpenChange }) {
     if (step === 3) {
       const errs = {};
       if (!address.trim()) errs.address = 'Visit address is required.';
-      if (!city.trim())    errs.city    = 'City is required.';
+      if (!city.trim()) errs.city = 'City is required.';
       if (Object.keys(errs).length) {
         setErrors(errs);
         return;
@@ -208,7 +208,7 @@ export default function BookingDialog({ service, open, onOpenChange }) {
       toast({ title: 'Almost there', description: 'Please complete all required fields before confirming.' });
       return;
     }
-console.log("Stored UserId:", userid);
+    console.log("Stored UserId:", userid);
     setBusy(true);
     try {
       await createBooking({
@@ -244,23 +244,23 @@ console.log("Stored UserId:", userid);
 
   const ctaLabel =
     step === 4
-      ? busy ? 'Confirming...' : `I've paid Rs.${service.price} — confirm`
+      ? busy ? 'Confirming...' : `Confirm Booking`
       : 'Continue';
 
   /* ── review rows for step 4 ──────────────────────────────────── */
   const reviewRows = [
     ['Service', service.title],
-    ['For',     name  || '—'],
-    ['Phone',   phone || '—'],
-    ['When',    `${new Date(date).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })} · ${slot}`],
-    ['Where',   [address, city].filter(Boolean).join(', ') || '—'],
+    ['For', name || '—'],
+    ['Phone', phone || '—'],
+    ['When', `${new Date(date).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })} · ${slot}`],
+    ['Where', [address, city].filter(Boolean).join(', ') || '—'],
   ];
 
   /* ════════════════════════════════════════════════════════════ */
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="max-w-[500px] w-[calc(100%-16px)] sm:rounded-3xl border border-white/10 bg-[#0d1a14] text-zinc-100 p-0 overflow-hidden flex flex-col max-h-[92vh]"
+        className="max-w-[500px] w-[calc(100%-16px)] sm:rounded-3xl border border-white/10 bg-[#FCF9EE] text-zinc-100 p-0 overflow-hidden flex flex-col max-h-[92vh]"
       >
         <DialogHeader className="sr-only">
           <DialogTitle>Book {service.title}</DialogTitle>
@@ -301,7 +301,7 @@ console.log("Stored UserId:", userid);
               {/* step nodes */}
               <div className="grid grid-cols-4 gap-1">
                 {STEPS.map(({ id, label, Icon }) => {
-                  const isDone   = id < step;
+                  const isDone = id < step;
                   const isActive = id === step;
                   return (
                     <button
@@ -316,8 +316,8 @@ console.log("Stored UserId:", userid);
                           isDone
                             ? 'bg-emerald-500/15 border-emerald-500 text-emerald-400'
                             : isActive
-                            ? 'bg-emerald-500 border-emerald-500 text-[#0a1a10]'
-                            : 'bg-white/5 border-white/12 text-zinc-600',
+                              ? 'bg-emerald-500 border-emerald-500 text-[#0a1a10]'
+                              : 'bg-white/5 border-white/12 text-zinc-600',
                         ].join(' ')}
                       >
                         {isDone ? <Check size={13} /> : <Icon size={13} />}
@@ -341,7 +341,7 @@ console.log("Stored UserId:", userid);
 
               {/* ── STEP 1: Service ──────────────────────────────── */}
               {step === 1 && (
-                <div className="rounded-2xl border border-white/7 bg-[#0f2018] overflow-hidden">
+                <div className="rounded-2xl border border-white/7 bg-[#FCF9EE] overflow-hidden">
                   <div className="relative h-36 overflow-hidden bg-[#0a1a10]">
                     <img
                       src={service.image}
@@ -352,42 +352,42 @@ console.log("Stored UserId:", userid);
                       Home visit
                     </span>
                     <div className="absolute bottom-3 left-3">
-                      <p className="text-xl font-extrabold text-white">{service.title}</p>
+                      <p className="text-xl font-extrabold text-[#1F2937]">{service.title}</p>
                       <p className="text-xs text-zinc-400 mt-0.5">{service.description}</p>
                     </div>
                   </div>
 
-                  <div className="p-4 space-y-4">
-                    <div className="grid grid-cols-3 gap-2">
+                  <div className="p-4 bg-[#FCF9EE] space-y-4">
+                    <div className="grid grid-cols-3 bg-[#FCF9EE] gap-2">
                       {[
-                        { Icon: Star,  val: '4.8',            key: 'Rating' },
-                        { Icon: Users, val: '8.9k+',          key: 'Visits done' },
-                        { Icon: Clock, val: service.duration,  key: 'Visit time' },
+                        { Icon: Star, val: '4.8', key: 'Rating' },
+                        { Icon: Users, val: '8.9k+', key: 'Visits done' },
+                        { Icon: Clock, val: service.duration, key: 'Visit time' },
                       ].map(({ Icon, val, key }) => (
-                        <div key={key} className="bg-[#0a1a10] border border-white/6 rounded-xl p-2.5 text-center">
+                        <div key={key} className="bg-[#0a1a10] border border-white/6 bg-[#FCF9EE] rounded-xl p-2.5 text-center">
                           <Icon size={14} className="text-emerald-500 mx-auto mb-1" />
-                          <p className="text-[15px] font-extrabold text-white">{val}</p>
-                          <p className="text-[10px] text-zinc-500 mt-0.5">{key}</p>
+                          <p className="text-[15px] font-extrabold text-[#1F2937]">{val}</p>
+                          <p className="text-[10px] text-slate-500 mt-0.5">{key}</p>
                         </div>
                       ))}
                     </div>
 
                     <div>
-                      <p className="text-[11px] font-bold uppercase tracking-[.12em] text-zinc-400 mb-1.5">What's included</p>
-                      <p className="text-[13px] text-zinc-400 leading-relaxed">
+                      <p className="text-[11px] font-bold uppercase tracking-[.12em] text-black mb-1.5">What's included</p>
+                      <p className="text-[13px] text-black leading-relaxed">
                         Certified nurses for injections, IV drips, wound dressing, post-surgical care and elderly assistance.
                       </p>
                     </div>
 
                     <div>
-                      <p className="text-[11px] font-bold uppercase tracking-[.12em] text-zinc-400 mb-2">You're protected by</p>
+                      <p className="text-[11px] font-bold uppercase tracking-[.12em] text-black mb-2">You're protected by</p>
                       <ul className="space-y-2">
                         {[
-                          [ShieldCheck,   'Background-verified professionals'],
+                          [ShieldCheck, 'Background-verified professionals'],
                           [CalendarCheck, 'Free reschedule up to 2 hours before visit'],
-                          [Headphones,    '24x7 concierge support over call'],
+                          [Headphones, '24x7 concierge support over call'],
                         ].map(([Icon, text]) => (
-                          <li key={text} className="flex items-center gap-2.5 text-[13px] text-zinc-400">
+                          <li key={text} className="flex items-center gap-2.5 text-[13px] text-black">
                             <Icon size={15} className="text-emerald-500 shrink-0" />
                             {text}
                           </li>
@@ -400,19 +400,23 @@ console.log("Stored UserId:", userid);
 
               {/* ── STEP 2: Patient ──────────────────────────────── */}
               {step === 2 && (
-                <div className="rounded-2xl border border-white/7 bg-[#0f2018] p-4 space-y-4">
+                <div className="rounded-2xl border border-white/7 bg-[#FCF9EE] p-4 space-y-4">
                   <p className="text-[17px] font-extrabold">Who is the visit for?</p>
 
                   {/* Name */}
                   <div className="space-y-1.5">
-                    <Label className="text-[11px] uppercase tracking-[.12em] font-bold text-zinc-400">Full name *</Label>
+                    <Label className="text-[11px] uppercase tracking-[.12em] font-bold text-black">Full name *</Label>
                     <div className="relative">
-                      <User size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" />
+                      <User size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-black" />
                       <Input
                         value={name}
-                        onChange={(e) => { setName(e.target.value); clearErr('name'); }}
+                        onChange={(e) => {
+                          setName(e.target.value);
+                          clearErr('name');
+                        }}
                         placeholder="Patient's full name"
-                        className={`h-11 pl-9 bg-[#0a1a10] border text-zinc-100 placeholder:text-zinc-600 focus-visible:ring-emerald-500/40 ${errors.name ? 'border-red-500' : 'border-white/10'}`}
+                        className={`h-11 pl-9 bg-[#FCF9EE] text-black placeholder:text-black border focus-visible:border-black focus-visible:ring-0 ${errors.name ? 'border-red-500' : 'border-black'
+                          }`}
                       />
                     </div>
                     <FieldError msg={errors.name} />
@@ -428,7 +432,8 @@ console.log("Stored UserId:", userid);
                         value={phone}
                         onChange={(e) => { setPhone(e.target.value); clearErr('phone'); }}
                         placeholder="9XXXXXXXXX"
-                        className={`h-11 pl-9 bg-[#0a1a10] border text-zinc-100 placeholder:text-zinc-600 focus-visible:ring-emerald-500/40 ${errors.phone ? 'border-red-500' : 'border-white/10'}`}
+                       className={`h-11 pl-9 bg-[#FCF9EE] text-black placeholder:text-black border focus-visible:border-black focus-visible:ring-0 ${errors.name ? 'border-red-500' : 'border-black'
+                          }`}
                       />
                     </div>
                     <FieldError msg={errors.phone} />
@@ -443,22 +448,23 @@ console.log("Stored UserId:", userid);
                         value={age}
                         onChange={(e) => { setAge(e.target.value); clearErr('age'); }}
                         placeholder="e.g. 34"
-                        className={`h-11 bg-[#0a1a10] border text-zinc-100 placeholder:text-zinc-600 focus-visible:ring-emerald-500/40 ${errors.age ? 'border-red-500' : 'border-white/10'}`}
+                       className={`h-11 pl-9 bg-[#FCF9EE] text-black placeholder:text-slate-400 border focus-visible:border-black focus-visible:ring-0 ${errors.name ? 'border-red-500' : 'border-black'
+                          }`}
                       />
                       <FieldError msg={errors.age} />
                     </div>
                     <div className="space-y-1.5">
-                      <Label className="text-[11px] uppercase tracking-[.12em] font-bold text-zinc-400">Gender</Label>
+                      <Label className="text-[11px] uppercase tracking-[.12em] font-bold text-zinc-600">Gender</Label>
                       <div className="grid grid-cols-3 gap-1.5">
                         {['Male', 'Female', 'Other'].map((g) => (
                           <button
                             key={g}
                             onClick={() => setGender(g)}
                             className={[
-                              'h-11 rounded-xl border text-[12px] font-semibold transition-colors',
+                              'h-11 rounded-xl bg-[#FCF9EE] border text-[12px] font-semibold transition-colors',
                               gender === g
-                                ? 'bg-emerald-500/15 border-emerald-500 text-emerald-300'
-                                : 'bg-[#0a1a10] border-white/10 text-zinc-400 hover:border-emerald-500/40',
+                                ? 'bg-emerald-500/25 border-emerald-500 text-emerald-600'
+                                : 'bg-[#0a1a10] border-black/10 text-black hover:border-emerald-500/40',
                             ].join(' ')}
                           >
                             {g}
@@ -476,7 +482,7 @@ console.log("Stored UserId:", userid);
                       onChange={(e) => setNotes(e.target.value)}
                       placeholder="Allergies, conditions, special requirements..."
                       rows={3}
-                      className="w-full bg-[#0a1a10] border border-white/10 rounded-xl px-3 py-2.5 text-[14px] text-zinc-100 placeholder:text-zinc-600 resize-none outline-none focus:border-emerald-500/50 transition-colors"
+                      className="w-full bg-[#FCF9EE] border border-black rounded-xl px-3 py-2.5 text-[14px] text-black placeholder:text-zinc-600 resize-none outline-none focus:border-emerald-500/50 transition-colors"
                     />
                   </div>
                 </div>
@@ -484,10 +490,10 @@ console.log("Stored UserId:", userid);
 
               {/* ── STEP 3: Schedule ─────────────────────────────── */}
               {step === 3 && (
-                <div className="rounded-2xl border border-white/7 bg-[#0f2018] p-4 space-y-5">
+                <div className="rounded-2xl border border-white/7 bg-[#FCF9EE] p-4 space-y-5">
                   {/* date */}
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[.12em] text-zinc-400 mb-2.5">Pick a date</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[.12em]  text-zinc-400 mb-2.5">Pick a date</p>
                     <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
                       {days.map((d, i) => {
                         const v = iso(d);
@@ -501,7 +507,7 @@ console.log("Stored UserId:", userid);
                               'shrink-0 flex flex-col items-center justify-center w-[60px] h-[72px] rounded-2xl border transition-colors',
                               active
                                 ? 'bg-emerald-500 border-emerald-500 text-[#0a1a10]'
-                                : 'bg-[#0a1a10] border-white/10 text-zinc-300 hover:border-emerald-500/40',
+                                : 'bg-[#FCF9EE] border-black text-zinc-500 hover:border-emerald-500/50',
                             ].join(' ')}
                           >
                             <span className="text-[10px] font-bold uppercase opacity-80">
@@ -526,8 +532,8 @@ console.log("Stored UserId:", userid);
                           className={[
                             'px-3.5 h-10 rounded-xl border text-[12px] font-semibold transition-colors',
                             t === slot
-                              ? 'bg-emerald-500/15 border-emerald-500 text-emerald-300'
-                              : 'bg-[#0a1a10] border-white/10 text-zinc-400 hover:border-emerald-500/40',
+                              ? 'bg-emerald-500/15 border-emerald-800 text-emerald-500'
+                              : 'bg-[#FCF9EE] border-black/10 text-zinc-800 hover:border-emerald-500/40',
                           ].join(' ')}
                         >
                           {t}
@@ -548,18 +554,18 @@ console.log("Stored UserId:", userid);
                             value={address}
                             onChange={(e) => { setAddress(e.target.value); clearErr('address'); }}
                             placeholder="House no, building, street, area"
-                            className={`h-11 pl-9 bg-[#0a1a10] border text-zinc-100 placeholder:text-zinc-600 focus-visible:ring-emerald-500/40 ${errors.address ? 'border-red-500' : 'border-white/10'}`}
+                            className={`h-11 pl-9 bg-[#FCF9EE] border text-black placeholder:text-slate-500 focus-visible:ring-emerald-500/40 ${errors.address ? 'border-red-500' : 'border-white/10'}`}
                           />
                         </div>
                         <FieldError msg={errors.address} />
                       </div>
                       <div className="space-y-1.5">
-                        <Label className="text-[11px] uppercase tracking-[.12em] font-bold text-zinc-400">City *</Label>
+                        <Label className="text-[11px] uppercase tracking-[.12em] font-bold text-black">City *</Label>
                         <Input
                           value={city}
                           onChange={(e) => { setCity(e.target.value); clearErr('city'); }}
                           placeholder="Chennai"
-                          className={`h-11 bg-[#0a1a10] border text-zinc-100 placeholder:text-zinc-600 focus-visible:ring-emerald-500/40 ${errors.city ? 'border-red-500' : 'border-white/10'}`}
+                          className={`h-11 bg-[#FCF9EE] border text-black placeholder:text-slate-500 focus-visible:ring-emerald-500/40 ${errors.city ? 'border-red-500' : 'border-white/10'}`}
                         />
                         <FieldError msg={errors.city} />
                       </div>
@@ -570,32 +576,32 @@ console.log("Stored UserId:", userid);
 
               {/* ── STEP 4: Payment ──────────────────────────────── */}
               {step === 4 && (
-                <div className="rounded-2xl border border-white/7 bg-[#0f2018] p-4 space-y-5">
+                <div className="rounded-2xl border border-white/7 bg-[#FCF9EE] p-4 space-y-5">
                   <div className="inline-flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-3 py-1">
                     <Lock size={11} className="text-emerald-400" />
                     <span className="text-[10px] font-bold uppercase tracking-[.1em] text-emerald-400">Secure checkout</span>
                   </div>
 
                   <div>
-                    <p className="text-[15px] font-bold text-white mb-3">Review your booking</p>
-                    <div className="bg-[#0a1a10] border border-white/7 rounded-xl p-3.5">
+                    <p className="text-[15px] font-bold text-[#1F2937] mb-3">Review your booking</p>
+                    <div className="bg-[#0a1a10] border border-white/7 bg-[#FCF9EE] rounded-xl p-3.5">
                       {reviewRows.map(([key, val], i) => (
                         <div
                           key={key}
-                          className={`flex items-start justify-between py-2 text-[13px] ${i < reviewRows.length - 1 ? 'border-b border-white/5' : ''}`}
+                          className={`flex items-start justify-between py-2 text-black text-[13px] ${i < reviewRows.length - 1 ? 'border-b border-white/5' : ''}`}
                         >
-                          <span className="text-zinc-500 shrink-0 mr-2">{key}</span>
-                          <span className="text-zinc-200 font-semibold text-right">{val}</span>
+                          <span className="text-black shrink-0 mr-2">{key}</span>
+                          <span className="text-slate-500 font-semibold text-right">{val}</span>
                         </div>
                       ))}
                       <div className="flex items-center justify-between pt-3 border-t border-white/8 mt-1">
-                        <span className="text-[13px] font-bold text-white">Total payable</span>
-                        <span className="text-[18px] font-extrabold text-emerald-300">Rs.{service.price}</span>
+                        <span className="text-[13px] font-bold text-[#1F2937]">Total payable</span>
+                        <span className="text-[18px] font-extrabold text-emerald-500">Rs.{service.price}</span>
                       </div>
                     </div>
                   </div>
 
-                  <div>
+                  {/* <div>
                     <p className="text-[11px] font-bold uppercase tracking-[.12em] text-zinc-400 mb-2.5">Payment method</p>
                     <div className="space-y-2">
                       {[
@@ -630,18 +636,18 @@ console.log("Stored UserId:", userid);
                         </button>
                       ))}
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               )}
             </div>
 
             {/* ── sticky bottom bar ─────────────────────────────── */}
-            <div className="shrink-0 px-4 pb-5 pt-3 border-t border-white/6 flex items-center gap-3">
+            <div className="shrink-0 px-4 pb-5 pt-3 border-t border-white/6  bg-[#FCF9EE] flex items-center gap-3">
               <div>
                 <p className="text-[10px] uppercase tracking-[.08em] text-zinc-500">
                   {step === 4 ? 'Total' : 'Visit fee'}
                 </p>
-                <p className="text-[22px] font-extrabold text-white leading-tight">Rs.{service.price}</p>
+                <p className="text-[22px] font-extrabold text-[#1F2937] leading-tight">Rs.{service.price}</p>
               </div>
               <Button
                 onClick={goNext}

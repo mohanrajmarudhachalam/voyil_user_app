@@ -69,13 +69,13 @@ export default function ProfilePage() {
             <UserIcon size={28} className="text-emerald-400" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-[12px] uppercase tracking-[0.18em] font-semibold text-emerald-400">
+            <p className="text-[12px] uppercase tracking-[0.18em] font-semibold text-emerald-500">
               Profile
             </p>
-            <h1 className="text-[24px] md:text-[28px] font-extrabold tracking-tight text-zinc-50 leading-tight">
+            <h1 className="text-[24px] md:text-[28px] font-extrabold tracking-tight text-emerald-500 leading-tight">
               {user.name}
             </h1>
-            <p className="text-[13px] text-zinc-400">
+            <p className="text-[13px] text-emerald-500">
               Bookings tracked by +{user.phone}
             </p>
           </div>

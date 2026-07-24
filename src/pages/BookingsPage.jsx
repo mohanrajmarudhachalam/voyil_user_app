@@ -39,8 +39,8 @@ export default function BookingsPage() {
     const p = getStoredPhone();
     setPhone(p);
     setUserid(getStoredUserId());
-    console.log('USER ID :',userid);
-    
+    console.log('USER ID :', userid);
+
     if (!p) {
       setItems([]);
       return;
@@ -63,10 +63,10 @@ export default function BookingsPage() {
         status: b.status || 'confirmed',
       }));
       setItems(mapped);
-    } catch(err) {
-      console.log('ERROR ',err);
-      
-      toast({ title: 'Could not load bookings' ,err });
+    } catch (err) {
+      console.log('ERROR ', err);
+
+      toast({ title: 'Could not load bookings', err });
     } finally {
       setLoading(false);
     }
@@ -96,14 +96,16 @@ export default function BookingsPage() {
     }
   };
 
+  
+
   return (
     <section className="relative max-w-5xl mx-auto px-5 lg:px-8 py-12 lg:py-16">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
         <div>
-          <p className="text-[12px] uppercase tracking-[0.18em] font-semibold text-emerald-400">
+          <p className="text-[12px] uppercase tracking-[0.18em] font-semibold text-emerald-500">
             Account
           </p>
-          <h1 className="mt-2 text-[32px] md:text-[40px] font-extrabold tracking-tight leading-tight">
+          <h1 className="mt-2 text-[32px] md:text-[40px] text-slate-500 font-extrabold tracking-tight leading-tight">
             Your bookings
           </h1>
           <p className="mt-2 text-[14px] text-zinc-400">
@@ -158,11 +160,11 @@ export default function BookingsPage() {
               {loading ? 'Loading…' : 'No bookings in this view.'}
             </div>
           ) : (
-            <div className="mt-6 grid md:grid-cols-2 gap-4">
+            <div className="mt-6 grid md:grid-cols-2 gap-9">
               {filtered.map((b) => (
                 <article
                   key={b.id}
-                  className="glass rounded-3xl overflow-hidden"
+                  className="bg-slate-50 rounded-3xl overflow-hidden shadow-md border border-slate-200"
                 >
                   <div className="relative h-[120px]">
                     <img
@@ -172,13 +174,13 @@ export default function BookingsPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-tr from-[#0a1411] via-[#0a1411]/40 to-transparent" />
                     <div className="absolute inset-0 flex items-end justify-between p-4">
-                      <h3 className="text-[18px] font-extrabold tracking-tight text-zinc-50">
+                      <h3 className="text-[18px] font-extrabold tracking-tight text-white">
                         {b.service_title}
                       </h3>
                       <StatusPill status={b.status} />
                     </div>
                   </div>
-                  <div className="px-5 py-4 space-y-1.5">
+                  <div className="px-5 py-4 space-y-1.5 bg-emerlad-500">
                     <Row icon={Clock}>
                       {new Date(b.date).toDateString()} · {b.slot}
                     </Row>
@@ -210,8 +212,8 @@ export default function BookingsPage() {
 
 function Row({ icon: Icon, children }) {
   return (
-    <p className="text-[13px] text-zinc-300 flex items-center gap-2">
-      <Icon size={13} className="text-emerald-400 shrink-0" />
+    <p className="text-[13px] text-slate-600 flex items-center gap-2">
+      <Icon size={13} className="text-slate-400 shrink-0" />
       <span className="truncate">{children}</span>
     </p>
   );
